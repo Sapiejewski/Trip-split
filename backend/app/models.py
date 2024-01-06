@@ -15,7 +15,6 @@ class Trip(models.Model):
     name = models.CharField(max_length=50)
     date_start = models.DateField()
     date_end = models.DateField()
-    image = models.ImageField(upload_to='trip_images/', null=True, blank=True)
     people = models.ManyToManyField(User, through='TripUser')
 
     def __str__(self):
