@@ -22,7 +22,7 @@ const Home = () => {
 	}, [data])
 
 	return (
-		<div className="flex items-center justify-center mt-10 mb-40">
+		<div className="flex items-center justify-center mt-10">
 			<div className="flex flex-col items-center justify-between w-11/12  gap-y-5">
 				<div className="flex flex-row justify-between w-5/6 items-center">
 					<h1 className="text-xl font-bold">Moje Wyjazdy</h1>
@@ -39,7 +39,7 @@ const Home = () => {
 							key={item.id}
 						/>
 					))} */}
-					<TripCard />
+					<TripCard name="Narty we Włoszech" />
 					<TripCard />
 					<TripCard />
 					<TripCard />

@@ -1,7 +1,8 @@
-Start venv
+Create venv
 ```
+python3 -m venv venv
 source venv/bin/activate
-pip install -r path/to/requirements.txt
+pip install -r requirements.txt
 ```
 Make migrations
 ```
