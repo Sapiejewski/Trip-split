@@ -1,19 +1,24 @@
 import React from "react"
+import { Card, CardHeader, CardBody, Image } from "@nextui-org/react"
+
 import img from "./img.jpg"
 const TripCard = () => {
 	return (
-		<div className="flex flex-col items-start shadow-md rounded py-[16px] px-[16px] w-1/5 mb-4">
-			<dic className="flex flex-col items-start justify-end">
-				<h2 className="font-bold text-xl">Narty we włoszech</h2>
-				<div>X zakupów</div>
-			</dic>
-			<div>
-				<img
+		<Card className="py-4">
+			<CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+				<p className="text-tiny uppercase font-bold">.....</p>
+				<small className="text-default-500">Wydajna kasa</small>
+				<h4 className="font-bold text-large">Nazwa wyjazdu</h4>
+			</CardHeader>
+			<CardBody className="overflow-visible py-2">
+				<Image
+					alt="Card background"
+					className="object-cover rounded-xl"
 					src={img}
-					alt="dolomity"
-					className="aspect-video rounded-lg shadow-lg h-auto max-w-full"></img>
-			</div>
-		</div>
+					width={270}
+				/>
+			</CardBody>
+		</Card>
 	)
 }
 
