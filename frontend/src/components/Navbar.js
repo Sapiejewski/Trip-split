@@ -2,8 +2,23 @@ import React from "react"
 import Logo from "./Logo"
 
 const Navbar = () => {
+	const links = [
+		{
+			name: "Wyjazdy",
+			href: "/",
+		},
+		{
+			name: "Uczestnicy",
+			href: "/",
+		},
+		{
+			name: "Historia",
+			href: "/",
+		},
+	]
+
 	return (
-		<nav class="bg-navbar">
+		<nav class="bg-primary">
 			<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 				<div class="relative flex h-16 items-center justify-between">
 					<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -46,26 +61,20 @@ const Navbar = () => {
 					</div>
 					<div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
 						<div class="flex flex-shrink-0 items-center hidden sm:block">
+							<a href="/">
 							<Logo />
+							</a>
 						</div>
 						<div class="hidden sm:ml-6 sm:block">
 							<div class="flex space-x-4">
+								{links.map((link) => (
 								<a
-									href="#"
-									class="rounded-md px-3 py-2 text-sm font-medium text-white"
+									href={link.href}
+									class="px-3 py-2 text-sm font-medium text-white border-b-4 border-primary hover:border-[#FFF] hover:text-[#FFF] duration-200 hover:scale-110"
 									aria-current="page">
-									Wyjazdy
+									{link.name}
 								</a>
-								<a
-									href="#"
-									class="text-white rounded-md px-3 py-2 text-sm font-medium">
-									Uczestnicy
-								</a>
-								<a
-									href="#"
-									class="text-white rounded-md px-3 py-2 text-sm font-medium">
-									Historia
-								</a>
+								))}
 							</div>
 						</div>
 					</div>
@@ -74,22 +83,14 @@ const Navbar = () => {
 
 			<div class="sm:hidden" id="mobile-menu">
 				<div class="space-y-1 px-2 pb-3 pt-2">
-					<a
-						href="#"
+					{links.map((link) => (
+						<a
+						href={link.href}
 						class="text-white rounded-md px-3 py-2 text-sm font-medium"
 						aria-current="page">
-						Wyjazdy
-					</a>
-					<a
-						href="#"
-						class="text-white rounded-md px-3 py-2 text-sm font-medium">
-						Uczestnicy
-					</a>
-					<a
-						href="#"
-						class="text-white rounded-md px-3 py-2 text-sm font-medium">
-						Historia
-					</a>
+						{link.name}
+						</a>
+					))}
 				</div>
 			</div>
 		</nav>

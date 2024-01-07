@@ -8,9 +8,14 @@ module.exports = {
 	],
 
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				primary: "#23CE6B",
+				secondary: "#B36AFB",
+				background: "#FAFAFA",
+			},
+		},
 		colors: {
-			navbar: "#23CE6B",
 		},
 	},
 	darkMode: "class",
