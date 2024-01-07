@@ -17,7 +17,7 @@ class UserView(APIView):
 
     def get(self, request):
         output = [
-            {"name": output.name, "email": output.email}
+            {"id": output.id, "name": output.name, "email": output.email}
             for output in User.objects.all()
         ]
         return Response(output)
@@ -90,6 +90,7 @@ class ExpenseUserView(APIView):
             serializer.save()
             return Response(serializer.data)
 
+
 ##### DELETES
 class DeleteUserFromTripView(APIView):
     def delete(self, request, trip_id, user_id):
@@ -108,7 +109,8 @@ class DeleteUserFromTripView(APIView):
         deleted_users = TripUser.objects.get(trip_id=trip_id, user_id=user_id)
         serializer = TripUserSerializer(deleted_users)
         return Response(serializer.data)
-    
+
+
 class DeleteUserView(APIView):
     def delete(self, request, user_id):
         try:
@@ -127,10 +129,13 @@ class DeleteUserView(APIView):
         serializer = UserSerializer(deleted_users)
         return Response(serializer.data)
 
+
 class DeleteUserFromExpenseView(APIView):
     def delete(self, request, expense_id, user_id):
         try:
-            expense_user = ExpenseUser.objects.get(expense_id=expense_id, user_id=user_id)
+            expense_user = ExpenseUser.objects.get(
+                expense_id=expense_id, user_id=user_id
+            )
             # Serialize the data before deletion
             expense_user_data = ExpenseUserSerializer(expense_user).data
             # Perform deletion
@@ -138,15 +143,22 @@ class DeleteUserFromExpenseView(APIView):
             # Return the serialized data of the deleted object
             return Response(expense_user_data, status=status.HTTP_200_OK)
         except ExpenseUser.DoesNotExist:
-            return Response({"error": "ExpenseUser not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "ExpenseUser not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
     def get(self, request, expense_id, user_id):
         try:
-            deleted_users = ExpenseUser.objects.get(expense_id=expense_id, user_id=user_id)
+            deleted_users = ExpenseUser.objects.get(
+                expense_id=expense_id, user_id=user_id
+            )
             serializer = ExpenseUserSerializer(deleted_users)
             return Response(serializer.data)
         except ExpenseUser.DoesNotExist:
-            return Response({"error": "ExpenseUser not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "ExpenseUser not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
 
 class DeleteTripView(APIView):
     def delete(self, request, trip_id):
@@ -165,6 +177,8 @@ class DeleteTripView(APIView):
         deleted_trip = Trip.objects.get(id=trip_id)
         serializer = TripSerializer(deleted_trip)
         return Response(serializer.data)
+
+
 class DeleteExpenseView(APIView):
     def delete(self, request, expense_id):
         try:
@@ -182,12 +196,14 @@ class DeleteExpenseView(APIView):
         expense_trip = Expense.objects.get(id=expense_id)
         serializer = ExpenseSerializer(expense_trip)
         return Response(serializer.data)
-    
+
+
 class UserDetailView(APIView):
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
 
 class TripDetailView(APIView):
     def get(self, request, trip_id):
@@ -195,10 +211,9 @@ class TripDetailView(APIView):
         serializer = TripSerializer(trip)
         return Response(serializer.data)
 
+
 class ExpenseDetailView(APIView):
     def get(self, request, expense_id):
         expense = get_object_or_404(Expense, id=expense_id)
         serializer = ExpenseSerializer(expense)
         return Response(serializer.data)
-
-    

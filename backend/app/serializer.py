@@ -5,7 +5,7 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["name", "email"]
+        fields = ["id","name", "email"]
 
 
 class TripSerializer(serializers.ModelSerializer):
@@ -13,7 +13,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ["name", "date_start", "date_end", "people_details"]
+        fields = ["id", "name", "date_start", "date_end", "people_details"]
 
     def get_people_details(self, obj):
         # Serializing the User objects related to this Trip instance
@@ -41,7 +41,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
-        fields = ["trip","trip_name", "name", "amount", "payer", "payer_details", "participants_details", "date"]
+        fields = ["trip","trip_name","id", "name", "amount", "payer", "payer_details", "participants_details", "date"]
 
     def get_payer_details(self, obj):
         return UserSerializer(obj.payer).data
