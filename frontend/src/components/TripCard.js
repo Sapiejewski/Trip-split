@@ -1,7 +1,7 @@
 import React from "react"
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react"
-
 import img from "./img.jpg"
+
 const TripCard = ({ name, date_start, date_end }) => {
 	return (
 		<Card className="py-4 hover:scale-105 hover:cursor-pointer shadow-lg hover:shadow-2xl">

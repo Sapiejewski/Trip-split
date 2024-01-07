@@ -11,6 +11,7 @@ const Home = () => {
 		fetch("http://localhost:8000/trip", {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json",
 			},
 		})
 			.then(res => res.json())

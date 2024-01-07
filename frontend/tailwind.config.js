@@ -15,8 +15,7 @@ module.exports = {
 				background: "#FAFAFA",
 			},
 		},
-		colors: {
-		},
+		colors: {},
 	},
 	darkMode: "class",
 	plugins: [nextui()],

@@ -7,12 +7,14 @@ import AddNewTrip from "./components/AddNewTrip.js"
 function App() {
 	return (
 		<Router>
-			<div className="bg-background">
+			<div className="bg-background ">
 				<Navbar />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/AddNewTrip" element={<AddNewTrip />} />
-				</Routes>
+				<div className="flex flex-col justify-center items-center">
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/AddNewTrip" element={<AddNewTrip />} />
+					</Routes>
+				</div>
 				<Footer />
 			</div>
 		</Router>
