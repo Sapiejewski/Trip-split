@@ -2,7 +2,7 @@ import React from "react"
 
 const Footer = () => {
 	return (
-		<div className="bg-primary mt-spacing-7 pb-spacing-7 bg-inverse">
+		<div className="bg-primary mt-spacing-7 pb-spacing-7 bg-inverse mt-40">
 			<div className="mt-[0px] h-[23px] bg-background"></div>
 			<div className="mt-[1px] h-[22px] bg-background"></div>
 			<div className="mt-[2px] h-[21px] bg-background"></div>
