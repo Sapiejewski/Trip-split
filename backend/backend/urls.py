@@ -18,12 +18,29 @@ from django.urls import path, include
 from app.views import *
 
 urlpatterns = [
+    #general views 
     path('admin/', admin.site.urls),
     path('user/', UserView.as_view()),
     path('trip/', TripView.as_view()),
     path('trip_user/', TripUserView.as_view()),
     path('expense/', ExpenseView.as_view()),
     path('expense_user/', ExpenseUserView.as_view()),
+    
+    #details
+    path('user/<int:user_id>/', UserDetailView.as_view(), name='user-detail'),
+    path('trip/<int:trip_id>/', TripDetailView.as_view(), name='trip-detail'),
+    path('expense/<int:expense_id>/', ExpenseDetailView.as_view(), name='expense-detail'),
+    
+    #deletes
+    path('user/<int:user_id>/remove_user/', DeleteUserView.as_view(), name='remove-user'),
+    path('trip/<int:trip_id>/remove_trip/', DeleteTripView.as_view(), name='remove-trip'),
+    path('expense/<int:expense_id>/remove_expense/', DeleteExpenseView.as_view(), name='remove-expense'),
+    
+    path('trip/<int:trip_id>/remove_user/<int:user_id>/', DeleteUserFromTripView.as_view(), name='remove-user-from-trip'),
+    path('expense/<int:expense_id>/remove_user/<int:user_id>/', DeleteUserFromExpenseView.as_view(), name='remove-user-from-expense'),
+    
+    
+
 
     
     
