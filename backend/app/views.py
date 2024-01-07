@@ -203,6 +203,14 @@ class UserDetailView(APIView):
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
+    def put(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TripDetailView(APIView):
@@ -210,6 +218,14 @@ class TripDetailView(APIView):
         trip = get_object_or_404(Trip, id=trip_id)
         serializer = TripSerializer(trip)
         return Response(serializer.data)
+    
+    def put(self, request, trip_id):
+        trip = get_object_or_404(User, id=trip_id)
+        serializer = TripSerializer(trip, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ExpenseDetailView(APIView):
@@ -217,3 +233,11 @@ class ExpenseDetailView(APIView):
         expense = get_object_or_404(Expense, id=expense_id)
         serializer = ExpenseSerializer(expense)
         return Response(serializer.data)
+    
+    def put(self, request, expense_id):
+        trip = get_object_or_404(User, id=expense_id)
+        serializer = ExpenseSerializer(trip, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
