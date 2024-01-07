@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar.js"
 import TripCard from "./components/TripCard.js"
 // import { BrowserRouter as Routes, Router, Route, Link } from "react-router-dom"
 import AddNewTrip from "./components/AddNewTrip.js"
+import { Button } from "@nextui-org/react"
+
 function App() {
 	return (
 		// <Router>
@@ -13,12 +15,10 @@ function App() {
 					<div className="flex flex-row justify-between w-5/6 items-center">
 						<h1 className="text-xl font-bold">Moje Wyjazdy</h1>
 						{/* <Link to="/AddNewTrip"> */}
-						<button className="bg-[#B36AFB] text-[#FFFFFF] flex justify-center items-center py-[10px] shadow-md shadow-[#B36AFB]  rounded-lg   px-[20px]">
-							+ Nowy wyjazd
-						</button>
+						<Button color="secondary">+ Nowy Wyjazd</Button>
 						{/* </Link> */}
 					</div>
-					<div className="flex flex-wrap flex-row justify-center gap-x-5">
+					<div className="flex flex-wrap flex-row justify-center gap-x-5 gap-y-5 w-5/6">
 						<TripCard />
 						<TripCard />
 						<TripCard />
