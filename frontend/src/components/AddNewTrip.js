@@ -13,7 +13,7 @@ const AddNewTrip = () => {
 						<div className="flex flex-row justify-between w-5/6 items-center">
 							<h1 className="text-xl font-bold">Moje Wyjazdy</h1>
 							<Link to="/AddNewTrip">
-								<button className="bg-[#B36AFB] text-[#FFFFFF] flex justify-center items-center py-[10px] shadow-md shadow-[#B36AFB]  rounded-lg   px-[20px]">
+								<button className="bg-secondary text-[#FFFFFF] flex justify-center items-center py-[10px] shadow-md shadow-secondary  rounded-lg   px-[20px]">
 									+ Nowy wyjazd
 								</button>
 							</Link>
