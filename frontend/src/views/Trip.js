@@ -20,37 +20,13 @@ import { useParams } from "react-router-dom";
 const url = process.env.REACT_APP_API_URL;
 
 const Trip = () => {
-  const [newUser, setNewUser] = useState({ name: "", email: "" });
-  const [users, setUsers] = useState([
-    "Filip",
-    "Arek",
-    "Kuba",
-    "Kacper",
-    "Jarek",
-  ]);
+  const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [date_start, setDate_start] = useState("");
   const [date_end, setDate_end] = useState("");
 
   const { tripId } = useParams();
 
-  const handleUserChange = (e, key) => {
-    setNewUser((prevState) => ({
-      ...prevState,
-      [key]: e.target.value,
-      trip: tripId,
-    }));
-  };
-
-  const handleUserClick = () => {
-    fetch(`${url}/trip_user/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    });
-  };
   useEffect(() => {
     fetch(`${url}/trip/${tripId}`, {
       headers: {
@@ -64,21 +40,6 @@ const Trip = () => {
         setDate_end(data.date_end);
       });
   }, []);
-
-  console.log(tripId);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/user", {
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setUsers(data);
-  //     });
-  // }, []);
 
   return (
     <>
@@ -115,13 +76,6 @@ const Trip = () => {
                       </button>
                     </Tooltip>
                   ))}
-                  <Tooltip content="adduser" placement="bottom">
-                    <AddNewTripUserModal
-                      user={newUser}
-                      handleUserChange={handleUserChange}
-                      handleUserClick={handleUserClick}
-                    />
-                  </Tooltip>
                 </AvatarGroup>
               </div>
             </div>

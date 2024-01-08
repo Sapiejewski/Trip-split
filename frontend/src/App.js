@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Home.js";
 import AddNewTrip from "./views/AddNewTrip.js";
 import Trip from "./views/Trip.js";
+import Users from "./views/Users.js";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/AddNewTrip" element={<AddNewTrip />} />
             <Route path="/Trip/:tripId" element={<Trip />} />
+            <Route path="/Users" element={<Users />} />
           </Routes>
         </div>
         <Footer />
