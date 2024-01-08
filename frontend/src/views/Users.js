@@ -11,13 +11,14 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import CreateUserModal from "../modals/CreateUserModal";
+
 const url = process.env.REACT_APP_API_URL;
 
 const Users = () => {
   const [users, setUsers] = useState();
 
   const fetchUsers = () => {
-    fetch(`${url}/user`, {
+    fetch(`${url}/user/`, {
       headers: {
         "Content-Type": "application/json",
       },

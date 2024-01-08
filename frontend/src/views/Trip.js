@@ -1,4 +1,11 @@
-import { Avatar, AvatarGroup, Card, Tooltip } from "@nextui-org/react";
+import {
+  Avatar,
+  AvatarGroup,
+  Card,
+  Select,
+  SelectItem,
+  Tooltip,
+} from "@nextui-org/react";
 
 import image from "./../images/tripImages/img.jpg";
 import { useEffect, useState } from "react";
@@ -38,8 +45,19 @@ const Trip = () => {
         setName(data.name);
         setDate_start(data.date_start);
         setDate_end(data.date_end);
+        setUsers(data.people_details);
       });
   }, []);
+
+  const fetchUsers = () => {
+    fetch(`${url}/trip/${tripId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setUsers(data.people_details));
+  };
 
   return (
     <>
@@ -69,13 +87,17 @@ const Trip = () => {
               </div>
               <div className="md:w-[50%] relative bottom-5 md:top-0 ">
                 <AvatarGroup max={8}>
-                  {users.map((user) => (
-                    <Tooltip content={user} placement="bottom">
+                  {users?.map((user) => (
+                    <Tooltip content={user.name} placement="bottom">
                       <button>
-                        <Avatar name={user} />
+                        <Avatar name={user.name} />
                       </button>
                     </Tooltip>
                   ))}
+                  <AddNewTripUserModal
+                    tripId={tripId}
+                    fetchUsers={fetchUsers}
+                  />
                 </AvatarGroup>
               </div>
             </div>
