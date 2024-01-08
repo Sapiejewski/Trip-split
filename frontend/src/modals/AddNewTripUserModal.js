@@ -14,6 +14,8 @@ import {
 } from "@nextui-org/react";
 
 import { useEffect, useState } from "react";
+import plusIcon from "../images/add.png";
+import { animate } from "framer-motion";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -56,11 +58,8 @@ const AddNewTripUserModal = ({ tripId, fetchUsers }) => {
       <Tooltip content="Dodaj uczestnika" placement="bottom">
         <Avatar
           onClick={onOpen}
-          color="primary"
-          classNames={{
-            base: "primary",
-          }}
           className="cursor-pointer"
+          src={plusIcon}
           fallback={<plusIcon fill="#FFF" size={8} />}
         ></Avatar>
       </Tooltip>

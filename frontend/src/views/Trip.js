@@ -13,6 +13,7 @@ import ExpansesTable from "../components/ExpansesTable";
 import AddNewExpanseModal from "../modals/AddNewExpanseModal";
 import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
+import DeletableAvatar from "../components/DeletableAvatar";
 import { useParams } from "react-router-dom";
 const url = process.env.REACT_APP_API_URL;
 
@@ -50,12 +51,6 @@ const Trip = () => {
       .then((data) => setUsers(data.people_details));
   };
 
-  const deleteTripUser = (userId) => {
-    fetch(`${url}/trip/${tripId}/remove_user/${userId}/`, {
-      method: "DELETE",
-    }).then(() => fetchUsers());
-  };
-
   return (
     <>
       <div className="w-full">
@@ -85,9 +80,11 @@ const Trip = () => {
               <div className="md:w-[50%] relative bottom-5 md:top-0 ">
                 <AvatarGroup max={8}>
                   {users?.map((user) => (
-                    <Tooltip content={user.name} placement="bottom">
-                      <Avatar name={user.name} />
-                    </Tooltip>
+                    <DeletableAvatar
+                      user={user}
+                      fetchUsers={fetchUsers}
+                      tripId={tripId}
+                    />
                   ))}
                   <AddNewTripUserModal
                     tripId={tripId}
