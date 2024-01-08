@@ -1,4 +1,4 @@
-import TripCard from "./components/TripCard.js"
+import TripCard from "./components/TripCard"
 import { Button } from "@nextui-org/react"
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -10,7 +10,6 @@ const Home = () => {
 		setLoading(true)
 		fetch("http://localhost:8000/trip", {
 			headers: {
-				"Access-Control-Allow-Origin": "*",
 				"Content-Type": "application/json",
 			},
 		})
@@ -20,7 +19,7 @@ const Home = () => {
 				setData(data)
 			})
 		setLoading(false)
-	}, [data])
+	}, [])
 
 	return (
 		<div className="flex items-center justify-center mt-10">
@@ -32,20 +31,20 @@ const Home = () => {
 					</Link>
 				</div>
 				<div className="flex flex-wrap flex-row justify-center gap-x-5 gap-y-5 w-5/6">
-					{/* {data.map(item => (
+					{data.map(item => (
 						<TripCard
 							name={item.name}
 							date_start={item.date_start}
 							date_end={item.date_end}
 							key={item.id}
 						/>
-					))} */}
-					<TripCard name="Narty we Włoszech" />
+					))}
+					{/* <TripCard name="Narty we Włoszech" />
 					<TripCard />
 					<TripCard />
 					<TripCard />
 					<TripCard />
-					<TripCard />
+					<TripCard /> */}
 				</div>
 			</div>
 		</div>

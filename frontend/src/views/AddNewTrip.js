@@ -6,19 +6,41 @@ import { Checkbox } from "@nextui-org/react"
 import { Input, Button } from "@nextui-org/react"
 
 const AddNewTrip = () => {
+	const [checkbox, setCheckbox] = useState(true)
 	const [trip, setTrip] = useState({
 		name: "",
-		date_start: new Date(),
-		date_end: new Date(),
+		date_start: "",
+		date_end: "",
 	})
+	const [formatedTrip, setFormatedTrip] = useState({
+		name: "",
+		date_start: "",
+		date_end: "",
+	})
+	const handleDateChange = (e, key) => {
+		const [year, month, day] = e.target.value.split("-")
+		const formattedDateResult =
+			year && month && day ? `${year}-${month}-${day}` : ""
+		setFormatedTrip(prevState => ({
+			...prevState,
+			[key]: formattedDateResult,
+		}))
+		setTrip(prevState => ({ ...prevState, [key]: e.target.value }))
+	}
 	const navigate = useNavigate()
 
 	const handleClick = e => {
 		e.preventDefault()
+		console.log(trip.date_start)
+		fetch("http://localhost:8000/trip/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(formatedTrip),
+		})
 		navigate("/")
-		// fetch()
 	}
-	const [checkbox, setCheckbox] = useState(true)
 	return (
 		<div className="flex flex-col items-center justify-between w-11/12 mt-10 mb-40 gap-y-5">
 			<div className="flex flex-row justify-between w-5/6 items-center">
@@ -35,7 +57,16 @@ const AddNewTrip = () => {
 						<h1 className="font-bold text-lg">Podaj nazwę wyjazdu </h1>
 						<Input
 							value={trip.name}
-							onValueChange={setTrip}
+							onChange={e => {
+								setTrip(prevState1 => ({
+									...prevState1,
+									name: e.target.value,
+								}))
+								setFormatedTrip(prevState2 => ({
+									...prevState2,
+									name: e.target.value,
+								}))
+							}}
 							size="lg"
 							type="text"
 							label="Nazwa Wyjazdu"
@@ -56,7 +87,10 @@ const AddNewTrip = () => {
 								<h1 className="font-bold text-lg">Data rozpoczęcia </h1>
 								<Input
 									value={trip.date_start}
-									onValueChange={setTrip}
+									onChange={e => {
+										console.log(e.target.value)
+										handleDateChange(e, "date_start")
+									}}
 									size="lg"
 									type="date"
 									variant="bordered"
@@ -67,7 +101,10 @@ const AddNewTrip = () => {
 								<h1 className="font-bold text-lg">Data zakończenia</h1>
 								<Input
 									value={trip.date_end}
-									onValueChange={setTrip}
+									onChange={e => {
+										console.log(e.target.value)
+										handleDateChange(e, "date_end")
+									}}
 									size="lg"
 									type="date"
 									variant="bordered"
