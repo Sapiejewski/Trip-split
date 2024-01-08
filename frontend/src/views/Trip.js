@@ -13,12 +13,12 @@ import {
   Input,
   useDisclosure,
 } from "@nextui-org/react";
-import AddNewExpanseModal from "../components/AddNewExpanseModal";
-import BackgroundPickerModal from "../components/backgroundPickerModal";
+import AddNewExpanseModal from "../modals/AddNewExpanseModal";
+import BackgroundPickerModal from "../modals/BackgroundPickerModal";
+import AddNewTripUserModal from "../modals/AddNewTripUserModal";
 
 const Trip = ({ trip_id }) => {
   const [user, setUser] = useState({ name: "", email: "" });
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [users, setUsers] = useState([
     "Filip",
     "Arek",
@@ -62,45 +62,6 @@ const Trip = ({ trip_id }) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Dodaj nowego członka wycieczki
-              </ModalHeader>
-              <ModalBody>
-                <h1 className="font-bold text-lg">Imię</h1>
-                <Input
-                  value={user.name}
-                  onChange={(e) => handleUserChange(e, "name")}
-                  size="lg"
-                  type="text"
-                  variant="bordered"
-                  classNames={{ input: "bg-transparent" }}
-                />
-                <h1 className="font-bold text-lg">Email</h1>
-                <Input
-                  value={user.email}
-                  onChange={(e) => handleUserChange(e, "email")}
-                  size="lg"
-                  type="email"
-                  variant="bordered"
-                  classNames={{ input: "bg-transparent" }}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Zamknij
-                </Button>
-                <Button color="primary" onPress={handleUserClick}>
-                  Dodaj
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
       <div className="w-full">
         <img src={image} className="w-full h-60 object-cover" />
         <div className="flex justify-end w-full">
@@ -109,7 +70,7 @@ const Trip = ({ trip_id }) => {
         <div className="px-4">
           <div className="flex justify-between flex-col md:flex-row p-4">
             <div className="md:w-[50%] justify-center flex">
-              <Card className="p-6 md:min-w-[400px] sm:w-[80%] w-full relative bottom-10">
+              <Card className="p-6 md:min-w-[400px] sm:w-[80%] w-full relative bottom-20">
                 <div className="flex flex-col items-start justify-center">
                   <h1 className="text-2xl md:text-4xl font-bold mb-5">
                     Wakacje w Grecji
@@ -132,9 +93,11 @@ const Trip = ({ trip_id }) => {
                   </Tooltip>
                 ))}
                 <Tooltip content={"adduser"} placement="bottom">
-                  <Button onClick={onOpen} color="primary">
-                    Dodaj uczestnika wycieczki
-                  </Button>
+                  <AddNewTripUserModal
+                    user={user}
+                    handleUserChange={handleUserChange}
+                    handleUserClick={handleUserClick}
+                  />
                 </Tooltip>
               </AvatarGroup>
             </div>
