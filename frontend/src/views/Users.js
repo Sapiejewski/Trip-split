@@ -11,7 +11,6 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import CreateUserModal from "../modals/CreateUserModal";
-
 const url = process.env.REACT_APP_API_URL;
 
 const Users = () => {
