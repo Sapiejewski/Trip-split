@@ -30,6 +30,7 @@ urlpatterns = [
     path('user/<int:user_id>/', UserDetailView.as_view(), name='user-detail'),
     path('trip/<int:trip_id>/', TripDetailView.as_view(), name='trip-detail'),
     path('expense/<int:expense_id>/', ExpenseDetailView.as_view(), name='expense-detail'),
+    path('expense/<int:trip_id>/',ExpenseSummaryView.as_view(), name='trip-expense-summary'),
     
     #deletes
     path('user/<int:user_id>/remove_user/', DeleteUserView.as_view(), name='remove-user'),
