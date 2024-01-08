@@ -1,12 +1,6 @@
-import {
-	Avatar,
-	AvatarGroup,
-	AvatarIcon,
-	Card,
-	Tooltip,
-} from "@nextui-org/react"
-import { CiCirclePlus } from "react-icons/ci"
-import image from "./../images/img.jpg"
+import { Avatar, AvatarGroup, Card, Tooltip } from "@nextui-org/react"
+
+import image from "./../images/tripImages/img.jpg"
 import { useEffect, useState } from "react"
 import ExpansesTable from "../components/ExpansesTable"
 import {
@@ -16,10 +10,12 @@ import {
 	ModalBody,
 	ModalFooter,
 	Button,
+	Input,
 	useDisclosure,
 } from "@nextui-org/react"
 
-const Trip = () => {
+const Trip = ({ trip_id }) => {
+	const [user, setUser] = useState({ name: "", email: "" })
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [users, setUsers] = useState([
 		"Filip",
@@ -28,6 +24,26 @@ const Trip = () => {
 		"Kacper",
 		"Jarek",
 	])
+	const handleUserChange = (e, key) => {
+		setUser(prevState => ({
+			...prevState,
+			[key]: e.target.value,
+			trip: trip_id,
+		}))
+	}
+
+	const handleUserClick = () => {
+		fetch("http://localhost:8000/trip_user/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		})
+	}
+	useEffect(() => {
+		console.log(trip_id)
+	}, [])
 
 	//   useEffect(() => {
 	//     fetch("http://localhost:8000/user", {
@@ -52,17 +68,30 @@ const Trip = () => {
 								Dodaj nowego członka wycieczki
 							</ModalHeader>
 							<ModalBody>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Nullam pulvinar risus non risus hendrerit venenatis.
-									Pellentesque sit amet hendrerit risus, sed porttitor quam.
-								</p>
+								<h1 className="font-bold text-lg">Imię</h1>
+								<Input
+									value={user.name}
+									onChange={e => handleUserChange(e, "name")}
+									size="lg"
+									type="text"
+									variant="bordered"
+									classNames={{ input: "bg-transparent" }}
+								/>
+								<h1 className="font-bold text-lg">Email</h1>
+								<Input
+									value={user.email}
+									onChange={e => handleUserChange(e, "email")}
+									size="lg"
+									type="email"
+									variant="bordered"
+									classNames={{ input: "bg-transparent" }}
+								/>
 							</ModalBody>
 							<ModalFooter>
 								<Button color="danger" variant="light" onPress={onClose}>
 									Zamknij
 								</Button>
-								<Button color="primary" onPress={onClose}>
+								<Button color="primary" onPress={handleUserClick}>
 									Dodaj
 								</Button>
 							</ModalFooter>
@@ -88,7 +117,7 @@ const Trip = () => {
 								</div>
 							</Card>
 						</div>
-						<div className="md:w-[50%] ">
+						<div className="md:w-[50%]  ">
 							<AvatarGroup max={8}>
 								{users.map(user => (
 									<Tooltip content={user} placement="bottom">
@@ -98,9 +127,9 @@ const Trip = () => {
 									</Tooltip>
 								))}
 								<Tooltip content={"adduser"} placement="bottom">
-									<button onClick={onOpen}>
-										<Avatar name={"adduser"} icon={<CiCirclePlus />} />
-									</button>
+									<Button onClick={onOpen} color="primary">
+										Dodaj uczestnika wycieczki
+									</Button>
 								</Tooltip>
 							</AvatarGroup>
 						</div>
