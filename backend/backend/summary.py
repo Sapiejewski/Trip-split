@@ -11,6 +11,7 @@ get_transactions_list   |   id transakcji   |
 import sqlite3 as sq3
 from decimal import Decimal
 import pathlib
+import json
 
 dtbpath = str(pathlib.Path(__file__).parent.parent.resolve()) + "/db.sqlite3"
 DEBUG = True
@@ -80,6 +81,41 @@ def _get_trip_participants(trip_id : int):
 
     return list(participants_data.keys()), participants_data
 
+def _make_transactions_matrix(transactions : list, participants : list):
+
+    transaction_matrix = {payer : { debtor : Decimal(0) for debtor in participants} for payer in participants}
+
+    for t in transactions:
+        trans = transactions[t]
+        payer = int(trans['payer'])
+        rem_pper = Decimal(trans['amount']/len(trans['buyers'])) # remaining amount per person
+
+        if payer in trans['buyers']:
+            idx = trans['buyers'].index(payer)
+            debtors = trans['buyers'][:idx] + trans['buyers'][idx+1:]
+        else:
+            debtors = trans['buyers']
+
+        for d in debtors:
+            transaction_matrix[payer][d] -= rem_pper
+            transaction_matrix[d][payer] += rem_pper
+
+    return transaction_matrix
+
+def _generate_json(transaction_matrix) -> json:
+    people = list(transaction_matrix.keys())
+    debts = {}
+    debts_keys = []
+    for p in people:
+        for d in people:
+            if transaction_matrix[p][d] < 0:
+                if p not in debts_keys:
+                    debts_keys.append(p)
+                    debts[p] = {}
+                debts[p][d] = str(-transaction_matrix[p][d])
+
+    return json.dumps(debts)
+
 def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
     """
 
@@ -93,6 +129,10 @@ def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
     if type(ans) == None: return
     else: participants, participants_data = ans
 
+    ans = _make_transactions_matrix(transactions, participants)
+    if type(ans) == None: return
+    else: transaction_matrix = ans
+
     if DEBUG:
         print("\nTransakcje")
         for t in transactions: print(transactions[t])
@@ -103,47 +143,34 @@ def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
         print("\nDane uczestników")
         for d in participants_data: print(participants_data[d])
 
-    transaction_matrix = [[Decimal(0) for _ in range(len(participants))] for _ in range(len(participants))]
-
-    for t in transactions:
-        trans = transactions[t]
-        payer = int(trans['payer'])
-        rem_pper = Decimal(trans['amount']/len(trans['buyers'])) # remaining amount per person
-        if payer in trans['buyers']:
-            idx = trans['buyers'].index(payer)
-            debtors = trans['buyers'][:idx] + trans['buyers'][idx+1:]
-        else:
-            debtors = trans['buyers']
-        payer -= 1 # correction key to list index
-        for d in debtors:
-            d = int(d) - 1 # correction key to list index
-            transaction_matrix[payer][d] -= rem_pper
-            transaction_matrix[d][payer] += rem_pper
-    
-    if DEBUG:
         print("\nMacierz zależności")
+        print("   ", end='')
+        for i in transaction_matrix:
+            print(i, end=' ')
+        print()
         for r in transaction_matrix:
-            for p in r:
-                print(p, end=' ')
+            print(r,':', sep="", end=' ')
+            for p in transaction_matrix[r]:
+                print(transaction_matrix[r][p], end=' ')
             print()
 
-    finall_response = []
+        print("\nPodsumowanie tekstowe macierzy")
+        people = list(transaction_matrix.keys())
+        for i in people:
+            have_debtors = any(transaction_matrix[i])
+            payer_name, payer_email = participants_data[i].values()
+            if not have_debtors:
+                print(f"{payer_name} ({payer_email}) nie ma dłużników)")
+                continue
+            index = people.index(i)
+            for j in people[index+1:]:
+                if transaction_matrix[i][j]:
+                    debtor_name, debtor_email = participants_data[j].values()
+                    print(f"{debtor_name} ({debtor_email}) jest winny {payer_name} ({payer_email}) : {-transaction_matrix[i][j]} zł")
 
-    print("\nPodsumowanie tekstowe macierzy")
-    for i in range(len(transaction_matrix)):
-        have_debtors = bool(any(transaction_matrix[i]))
-        payer_name, payer_email = participants_data[i+1].values()
-        if not have_debtors:
-            ans = f"{payer_name} ({payer_email}) nie ma dłużników)"
-            finall_response.append(ans)
-            if DEBUG: print(ans)
-            continue
-        for j in range(i,len(transaction_matrix)):
-            if transaction_matrix[i][j]:
-                debtor_name, debtor_email = participants_data[j+1].values()
-                ans = f"{debtor_name} ({debtor_email}) jest winny {payer_name} ({payer_email}) : {-transaction_matrix[i][j]} zł"
-                finall_response.append(ans)
-                if DEBUG: print(ans)
+    jsonik = _generate_json(transaction_matrix)
+    print(jsonik)
+    return jsonik
 
 # PUBLIC / API
 
