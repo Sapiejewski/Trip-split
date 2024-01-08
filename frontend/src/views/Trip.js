@@ -16,18 +16,11 @@ import {
 import AddNewExpanseModal from "../modals/AddNewExpanseModal";
 import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
-<<<<<<< Updated upstream
-
-const Trip = ({ trip_id }) => {
-  const url = process.env.API_URL;
-  const [user, setUser] = useState({ name: "", email: "" });
-=======
 import { useParams } from "react-router-dom";
 const url = process.env.REACT_APP_API_URL;
 
 const Trip = () => {
   const [newUser, setNewUser] = useState({ name: "", email: "" });
->>>>>>> Stashed changes
   const [users, setUsers] = useState([
     "Filip",
     "Arek",
@@ -40,6 +33,7 @@ const Trip = () => {
   const [date_end, setDate_end] = useState("");
 
   const { tripId } = useParams();
+
   const handleUserChange = (e, key) => {
     setNewUser((prevState) => ({
       ...prevState,
