@@ -13,7 +13,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import plusIcon from "../images/icons/plusIcon.js";
 import { useEffect, useState } from "react";
 
 const url = process.env.REACT_APP_API_URL;

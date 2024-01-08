@@ -243,6 +243,12 @@ class ExpenseDetailView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class TripExpensesView(APIView):
+    def get(self, request, trip_id):
+        # Pobierz wszystkie wydatki dla danego trip
+        expenses = Expense.objects.filter(trip_id=trip_id)
+        serializer = ExpenseSerializer(expenses, many=True)
+        return Response(serializer.data)
 
 class ExpenseDetailView(APIView):
     def get(self, request, trip_id):

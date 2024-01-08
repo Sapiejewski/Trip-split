@@ -10,16 +10,6 @@ import {
 import image from "./../images/tripImages/img.jpg";
 import { useEffect, useState } from "react";
 import ExpansesTable from "../components/ExpansesTable";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Input,
-  useDisclosure,
-} from "@nextui-org/react";
 import AddNewExpanseModal from "../modals/AddNewExpanseModal";
 import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
@@ -31,6 +21,7 @@ const Trip = () => {
   const [name, setName] = useState("");
   const [date_start, setDate_start] = useState("");
   const [date_end, setDate_end] = useState("");
+  const [expenses, setExpenses] = useState([]);
 
   const { tripId } = useParams();
 
@@ -57,6 +48,12 @@ const Trip = () => {
     })
       .then((res) => res.json())
       .then((data) => setUsers(data.people_details));
+  };
+
+  const deleteTripUser = (userId) => {
+    fetch(`${url}/trip/${tripId}/remove_user/${userId}/`, {
+      method: "DELETE",
+    }).then(() => fetchUsers());
   };
 
   return (
@@ -89,9 +86,7 @@ const Trip = () => {
                 <AvatarGroup max={8}>
                   {users?.map((user) => (
                     <Tooltip content={user.name} placement="bottom">
-                      <button>
-                        <Avatar name={user.name} />
-                      </button>
+                      <Avatar name={user.name} />
                     </Tooltip>
                   ))}
                   <AddNewTripUserModal
@@ -103,7 +98,7 @@ const Trip = () => {
             </div>
             <div className="flex w-full pt-0 p-4 md:bottom-24 relative flex-col ">
               <AddNewExpanseModal />
-              <ExpansesTable />
+              <ExpansesTable tripId={tripId} />
             </div>
           </div>
         </div>
