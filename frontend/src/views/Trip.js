@@ -18,6 +18,7 @@ import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
 
 const Trip = ({ trip_id }) => {
+  const url = process.env.API_URL;
   const [user, setUser] = useState({ name: "", email: "" });
   const [users, setUsers] = useState([
     "Filip",
@@ -35,7 +36,7 @@ const Trip = ({ trip_id }) => {
   };
 
   const handleUserClick = () => {
-    fetch("http://localhost:8000/trip_user/", {
+    fetch(`${url}/trip_user/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
