@@ -48,7 +48,7 @@ const Home = () => {
           {data.map((item) => (
             <TripCard
               // img={images[item.id]}
-              trip_id={item.id}
+              tripId={item.id}
               name={item.name}
               date_start={item.date_start}
               date_end={item.date_end}
