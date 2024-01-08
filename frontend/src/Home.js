@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import img from "./images/tripImages/img.jpg"
 const Home = () => {
+<<<<<<< Updated upstream
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(false)
 	// const images = [
@@ -30,6 +31,36 @@ const Home = () => {
 			})
 		setLoading(false)
 	}, [])
+=======
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  console.log(url);
+  // const images = [
+  // 	"./images/tripImages/airplaneWing.jpg",
+  // 	"./images/tripImages/DavidEm.jpg",
+  // 	"./images/tripImages/Góry.jpg",
+  // 	"./images/tripImages/GóryAless.jpg",
+  // 	"GóryKalen.jpg",
+  // 	"./images/tripImages/img.jpg",
+  // 	"./images/tripImages/LakeAaron.jpg",
+  // 	"./images/tripImages/TripBillard.jpg",
+  // 	"./images/tripImages/VacationPoints.jpg",
+  // ]
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${url}/trip/`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      });
+    setLoading(false);
+  }, []);
+>>>>>>> Stashed changes
 
 	return (
 		<div className="flex items-center justify-center mt-10">

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Input,
   Modal,
@@ -6,16 +7,28 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
+
+import plusIcon from "../images/icons/plusIcon.js";
 
 const AddNewTripUserModal = ({ user, handleUserChange, handleUserClick }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen} color="primary">
-        Dodaj uczestnika wycieczki
-      </Button>
+      <Tooltip content="Dodaj uczestnika" placement="bottom">
+        <Avatar
+          onClick={onOpen}
+          color="primary"
+          classNames={{
+            base: "primary",
+          }}
+          className="cursor-pointer"
+          fallback={<plusIcon fill="#FFF" size={8} />}
+        ></Avatar>
+      </Tooltip>
+      <plusIcon fill="primary" size={32} />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
