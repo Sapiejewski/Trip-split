@@ -8,9 +8,9 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializer import *
+from .summary import get_expense_summary_json
 
 # Create your views here.
-
 
 class UserView(APIView):
     serializer_class = UserSerializer
@@ -242,3 +242,9 @@ class ExpenseDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ExpenseDetailView(APIView):
+    def get(self, request, trip_id):
+        trip = get_object_or_404(Trip, id=trip_id)
+        return get_expense_summary_json(trip_id)
