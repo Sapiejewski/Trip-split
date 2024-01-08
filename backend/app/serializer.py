@@ -5,7 +5,7 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id","name", "email"]
+        fields = ["id", "name", "email"]
 
 
 class TripSerializer(serializers.ModelSerializer):
@@ -24,16 +24,18 @@ class TripSerializer(serializers.ModelSerializer):
 class TripUserSerializer(serializers.ModelSerializer):
     trip_name = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+
     class Meta:
         model = TripUser
-        fields = ["user","user_name", "trip","trip_name"]
-    
+        fields = ["user", "user_name", "trip", "trip_name"]
+
     def get_trip_name(self, obj):
         return obj.trip.name
-    
+
     def get_user_name(self, obj):
         return obj.user.name
-        
+
+
 class ExpenseSerializer(serializers.ModelSerializer):
     trip_name = serializers.SerializerMethodField()
     payer_details = serializers.SerializerMethodField()
@@ -41,7 +43,17 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
-        fields = ["trip","trip_name","id", "name", "amount", "payer", "payer_details", "participants_details", "date"]
+        fields = [
+            "trip",
+            "trip_name",
+            "id",
+            "name",
+            "amount",
+            "payer",
+            "payer_details",
+            "participants_details",
+            "date",
+        ]
 
     def get_payer_details(self, obj):
         return UserSerializer(obj.payer).data
@@ -49,7 +61,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
     def get_participants_details(self, obj):
         participants = obj.participants.all()
         return UserSerializer(participants, many=True).data
-    
+
     def get_trip_name(self, obj):
         return obj.trip.name
 
@@ -57,12 +69,13 @@ class ExpenseSerializer(serializers.ModelSerializer):
 class ExpenseUserSerializer(serializers.ModelSerializer):
     expense_name = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+
     class Meta:
         model = ExpenseUser
         fields = ["user", "user_name", "expense", "expense_name"]
-    
+
     def get_expense_name(self, obj):
         return obj.expense.name
-    
+
     def get_user_name(self, obj):
         return obj.user.name

@@ -55,6 +55,7 @@ class TripUserView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        print(request.data)
         serializer = TripUserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -203,7 +204,7 @@ class UserDetailView(APIView):
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
-    
+
     def put(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user, data=request.data)
@@ -218,7 +219,7 @@ class TripDetailView(APIView):
         trip = get_object_or_404(Trip, id=trip_id)
         serializer = TripSerializer(trip)
         return Response(serializer.data)
-    
+
     def put(self, request, trip_id):
         trip = get_object_or_404(User, id=trip_id)
         serializer = TripSerializer(trip, data=request.data)
@@ -233,7 +234,7 @@ class ExpenseDetailView(APIView):
         expense = get_object_or_404(Expense, id=expense_id)
         serializer = ExpenseSerializer(expense)
         return Response(serializer.data)
-    
+
     def put(self, request, expense_id):
         trip = get_object_or_404(User, id=expense_id)
         serializer = ExpenseSerializer(trip, data=request.data)

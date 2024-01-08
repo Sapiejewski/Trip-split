@@ -19,7 +19,7 @@ const Home = () => {
 	// ]
 	useEffect(() => {
 		setLoading(true)
-		fetch("http://localhost:8000/trip", {
+		fetch(`http://localhost:8000/trip`, {
 			headers: {
 				"Content-Type": "application/json",
 			},

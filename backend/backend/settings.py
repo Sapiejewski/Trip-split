@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,7 +50,24 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     # "http://localhost:8000",  # Add the origin of your React app
+# ]
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
+}
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -61,19 +77,6 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
-
-CORS_ORIGIN_ALLOW_ALL = True
-
-
-REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
-    "DEFAULT_RENDERER_CLASSES": (
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ),
-}
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "backend.urls"
 
