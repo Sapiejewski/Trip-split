@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 
-import img from "../images/img.jpg";
+import img from "../images/tripImages/img.jpg";
 
 const TripCard = ({
   name = "Wakacje w Grecji",

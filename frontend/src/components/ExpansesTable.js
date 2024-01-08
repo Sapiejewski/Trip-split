@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -6,38 +6,100 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  AvatarGroup,
+  Avatar,
+  Tooltip,
 } from "@nextui-org/react";
 
-const ExpansesTable = ({ expanses }) => {
+const sampleData = [
+  {
+    id: 1,
+    amount: 100,
+    title: "Dinner",
+    payer: "John Doe",
+    participants: ["Alice", "Bob", "Charlie"],
+    date: "2024-01-08",
+  },
+  {
+    id: 2,
+    amount: 50,
+    title: "Lunch",
+    payer: "Alice",
+    participants: ["John Doe", "Charlie"],
+    date: "2024-01-09",
+  },
+  {
+    id: 3,
+    amount: 120,
+    title: "Shopping",
+    payer: "Bob",
+    participants: ["John Doe", "Alice"],
+    date: "2024-01-10",
+  },
+  {
+    id: 4,
+    amount: 80,
+    title: "Movie Night",
+    payer: "Charlie",
+    participants: ["John Doe", "Alice", "Bob"],
+    date: "2024-01-11",
+  },
+  // Add more sample expense objects as needed
+];
+
+const ExpansesTable = () => {
+  const [expanses, setExpanses] = useState(sampleData);
+
   return (
-    <Table className="w-full" aria-label="Example static collection table">
+    <Table className="" aria-label="Example static collection table">
       <TableHeader>
         <TableColumn>KWOTA</TableColumn>
+        <TableColumn>TYTUŁ</TableColumn>
         <TableColumn>KTO PŁACIŁ</TableColumn>
-        <TableColumn>STATUS</TableColumn>
+        <TableColumn>UCZESTNICY</TableColumn>
+        <TableColumn>DATA</TableColumn>
       </TableHeader>
       <TableBody>
-        <TableRow key="1">
-          <TableCell>Tony Reichert</TableCell>
-          <TableCell>CEO</TableCell>
-          <TableCell>Active</TableCell>
-        </TableRow>
-        <TableRow key="2">
-          <TableCell>Zoey Lang</TableCell>
-          <TableCell>Technical Lead</TableCell>
-          <TableCell>Paused</TableCell>
-        </TableRow>
-        <TableRow key="3">
-          <TableCell>Jane Fisher</TableCell>
-          <TableCell>Senior Developer</TableCell>
-          <TableCell>Active</TableCell>
-        </TableRow>
-        <TableRow key="4">
-          <TableCell>William Howard</TableCell>
-          <TableCell>Community Manager</TableCell>
-          <TableCell>Vacation</TableCell>
-        </TableRow>
+        {expanses.map((expanse) => (
+          <TableRow key={expanse.id}>
+            <TableCell>{expanse.amount} PLN</TableCell>
+            <TableCell>{expanse.title}</TableCell>
+            <TableCell>
+              <Tooltip content={expanse.payer} placement="left">
+                <Avatar name={expanse.payer} />
+              </Tooltip>
+            </TableCell>
+            <TableCell>
+              <AvatarGroup className="flex justify-start">
+                {expanse.participants.map((participant) => (
+                  <Tooltip content={participant} placement="bottom">
+                    <Avatar name={participant} />
+                  </Tooltip>
+                ))}
+              </AvatarGroup>
+            </TableCell>
+            <TableCell>{expanse.date}</TableCell>
+          </TableRow>
+        ))}
+
+        {/* {expanses.map((expanse) => (
+          <TableRow key={expanse.id}>
+            <TableCell>{expanse.amount} PLN</TableCell>
+            <TableCell>{expanse.title}</TableCell>
+            <Avatar name={expanse.payer} />
+            <TableCell>
+              <AvatarGroup className="flex justify-start">
+                {expanse.participants.map((participant) => (
+                  <Avatar name={participant} />
+                ))}
+              </AvatarGroup>
+            </TableCell>
+            <TableCell>{expanse.date}</TableCell>
+          </TableRow>
+        ))} */}
       </TableBody>
+
+      {/* <TableBody emptyContent={"No rows to display."}>{[]}</TableBody> */}
     </Table>
   );
 };

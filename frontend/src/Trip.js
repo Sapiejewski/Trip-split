@@ -1,15 +1,25 @@
-import { Avatar, AvatarGroup, Card, Tooltip } from "@nextui-org/react";
-import image from "./images/img.jpg";
+import {
+  Accordion,
+  AccordionItem,
+  Avatar,
+  AvatarGroup,
+  Button,
+  Card,
+  Tooltip,
+} from "@nextui-org/react";
+import image from "./images/tripImages/img.jpg";
 import { useEffect, useState } from "react";
 import ExpansesTable from "./components/ExpansesTable";
+import BackgroundPickerModal from "./components/backgroundPickerModal";
+import AddNewExpanseModal from "./components/AddNewExpanseModal";
 
 const Trip = () => {
   const [users, setUsers] = useState([
     "Filip",
     "Arek",
-    "Kuba",
-    "Kacper",
-    "Jarek",
+    // "Kuba",
+    // "Kacper",
+    // "Jarek",
   ]);
 
   //   useEffect(() => {
@@ -29,10 +39,13 @@ const Trip = () => {
     <>
       <div className="w-full">
         <img src={image} className="w-full h-60 object-cover" />
-        <div className="px-4">
+        <div className="flex justify-end w-full">
+          <BackgroundPickerModal />
+        </div>
+        <div className=" px-4 lg:px-24">
           <div className="flex justify-between flex-col md:flex-row p-4">
             <div className="md:w-[50%] justify-center flex">
-              <Card className="p-6 md:min-w-[400px] sm:w-[80%] w-full relative bottom-10">
+              <Card className="p-6 md:min-w-[400px] sm:w-[80%] w-full relative bottom-24">
                 <div className="flex flex-col items-start justify-center">
                   <h1 className="text-2xl md:text-4xl font-bold mb-5">
                     Wakacje w Grecji
@@ -55,7 +68,10 @@ const Trip = () => {
               </AvatarGroup>
             </div>
           </div>
-          <ExpansesTable />
+          <div className="flex w-full pt-0 p-4 bottom-24 relative flex-col ">
+            <AddNewExpanseModal />
+            <ExpansesTable />
+          </div>
         </div>
       </div>
     </>
