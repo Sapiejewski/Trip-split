@@ -30,9 +30,7 @@ def _get_transactions_for_trip(trip_id : int):
     except FileExistsError as e:
         print("Nastąpił problem z odczytem bazy danych")
         return
-    
-
-
+   
     command = f'''SELECT app_expense.id, app_expense.amount, app_expense.date, app_expense.payer_id, app_expense.name, app_expenseuser.user_id
 FROM app_expense
 LEFT JOIN app_expenseuser ON app_expenseuser.expense_id = app_expense.id
@@ -116,22 +114,24 @@ def _generate_json(transaction_matrix) -> json:
 
     return json.dumps(debts)
 
-def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
+def _expense_summary(trip_id : int) -> dict | None:
     """
 
     """
 
     ans = _get_transactions_for_trip(trip_id)
-    if type(ans) == None: return
+    if type(ans) == None: return json.dumps({})
     else: keys, transactions = ans
 
     ans = _get_trip_participants(trip_id)
-    if type(ans) == None: return
+    if type(ans) == None: return json.dumps({})
     else: participants, participants_data = ans
 
     ans = _make_transactions_matrix(transactions, participants)
-    if type(ans) == None: return
+    if type(ans) == None: return json.dumps({})
     else: transaction_matrix = ans
+
+    jsonik = _generate_json(transaction_matrix)
 
     if DEBUG:
         print("\nTransakcje")
@@ -168,19 +168,29 @@ def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
                     debtor_name, debtor_email = participants_data[j].values()
                     print(f"{debtor_name} ({debtor_email}) jest winny {payer_name} ({payer_email}) : {-transaction_matrix[i][j]} zł")
 
-    jsonik = _generate_json(transaction_matrix)
-    print(jsonik)
+        print("Oto jsonik")
+        print(jsonik)
+        
     return jsonik
 
 # PUBLIC / API
 
 def get_transactions_list(trip_id : int) -> list:
-    return _get_transactions_for_trip(trip_id)[1]
+    """
+    Ta funkcja przyjmuje indywidualny identyfikator tripa, a następnie zwraca listę
+    transakcji w formie json'a
+    """
+    return json.dumps(_get_transactions_for_trip(trip_id)[1])
+
+def get_expense_summary_json(trip_id : int) -> json:
+    """
+    Ta funkcja zwraca podsumowanie transakcji w formacie json
+    """
+    return _expense_summary(trip_id)
 
 if __name__ == "__main__":
     
     if DEBUG:
-        _get_data_from_db_for_trip(1)
+        _expense_summary(1)
     else:
         print(__doc__)
-    ...
