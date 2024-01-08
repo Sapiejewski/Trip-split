@@ -8,7 +8,6 @@ Nie jest od przeznaczony do wykorzystania w innych przypadkach
 import sqlite3 as sq3
 from decimal import Decimal
 
-#odczyt danych z bazy dancyh
 def _get_data_from_db_for_trip(trip_id : int) -> dict | None:
     """
 
@@ -39,7 +38,7 @@ ORDER BY app_expense.payer_id;
             transactions[id] = {"amount":amount, "payer":payer, "buyers" : []}
         transactions[id]["buyers"].append(buyer)
 
-    print("Transakcje")
+    print("\nTransakcje")
     for t in transactions:
         print(transactions[t])
 
@@ -49,7 +48,7 @@ ORDER BY app_expense.payer_id;
     participants = []
     for p in rows: participants.append(p[0])
 
-    print("Uczestnicy")
+    print("\nUczestnicy")
     for p in participants:
         print(p)
 
@@ -62,7 +61,7 @@ ORDER BY app_expense.payer_id;
         id, name, email = r
         participatns_data[id] = {'name':name, 'email':email}
     
-    print("Dane uczestników")
+    print("\nDane uczestników")
     for d in participatns_data:
         print(participatns_data[d])
 
@@ -82,12 +81,14 @@ ORDER BY app_expense.payer_id;
             d = int(d) - 1 # correction key to list index
             transaction_matrix[payer][d] -= rem_pper
             transaction_matrix[d][payer] += rem_pper
-                
+    
+    print("\nMacierz zależności")
     for r in transaction_matrix:
         for p in r:
             print(p, end=' ')
         print()
 
+    print("\nPodsumowanie tekstowe macierzy")
     for i in range(len(transaction_matrix)):
         have_debtors = bool(any(transaction_matrix[i]))
         payer_name, payer_email = participatns_data[i+1].values()
@@ -100,12 +101,11 @@ ORDER BY app_expense.payer_id;
                 print(f"{debtor_name} ({debtor_email}) jest winny {payer_name} ({payer_email}) : {-transaction_matrix[i][j]} zł")
     data.close()
 
-
-#odebranie zlecenia
+# odebranie zlecenia
 
 # policzenie kosztorysu
 
-#generowanie pliku
+# generowanie pliku
 
 if __name__ == "__main__":
     _get_data_from_db_for_trip(1)
