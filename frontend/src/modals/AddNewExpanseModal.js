@@ -12,52 +12,37 @@ import {
   Avatar,
   SelectSection,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AddNewExpanseModal = () => {
+const url = process.env.REACT_APP_API_URL;
+
+const AddNewExpanseModal = ({ users, tripId }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Filip",
-    },
-    {
-      id: 2,
-      name: "Arek",
-    },
-    {
-      id: 3,
-      name: "Kuba",
-    },
-    {
-      id: 4,
-      name: "Kacper",
-    },
-    {
-      id: 5,
-      name: "Jarek",
-    },
-    {
-      id: 6,
-      name: "Filip",
-    },
-    {
-      id: 7,
-      name: "Arek",
-    },
-    {
-      id: 8,
-      name: "Kuba",
-    },
-    {
-      id: 9,
-      name: "Kacper",
-    },
-    {
-      id: 10,
-      name: "Jarek",
-    },
-  ]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState();
+  const [selectedPayer, setSelectedPayer] = useState();
+  const [selectedUsers, setSelectedUsers] = useState();
+  const [date, setDate] = useState();
+
+  const handleSubmit = () => {
+    const data = {
+      trip: tripId,
+      name: name,
+      amount: price,
+      payer: selectedPayer,
+      date: date,
+    };
+    fetch(`${url}/expense/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.status === 200 ? onOpenChange() : console.log("error");
+    });
+  };
+
   return (
     <>
       <Button
@@ -81,6 +66,8 @@ const AddNewExpanseModal = () => {
                   label="Nazwa"
                   placeholder="Wpisz nazwę zakupu"
                   variant="bordered"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <div className="flex flex-row gap-2 mt-4">
                   <Input
@@ -88,6 +75,8 @@ const AddNewExpanseModal = () => {
                     label="Price"
                     placeholder="0.00"
                     labelPlacement="outside"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     variant="bordered"
                     className="w-1/2"
                     endContent={
@@ -102,6 +91,8 @@ const AddNewExpanseModal = () => {
                     placeholder="Wybierz osobę"
                     labelPlacement="outside"
                     className="w-1/2"
+                    value={selectedPayer}
+                    onChange={(e) => setSelectedPayer(e.target.value)}
                   >
                     {(user) => (
                       <SelectItem key={user.id} textValue={user.name}>
@@ -128,8 +119,10 @@ const AddNewExpanseModal = () => {
                   placeholder="Wybierz osoby uczestniczące"
                   selectionMode="multiple"
                   className="max-w-xs"
+                  value={selectedUsers}
+                  onChange={(e) => setSelectedUsers(e.target.value)}
                 >
-                  {users.map((user) => (
+                  {users?.map((user) => (
                     <SelectItem key={user.id} value={user.name}>
                       {user.name}
                     </SelectItem>
@@ -141,13 +134,15 @@ const AddNewExpanseModal = () => {
                   labelPlacement="outside"
                   placeholder="Wybierz datę"
                   variant="bordered"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Anuluj
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={handleSubmit}>
                   Zapisz
                 </Button>
               </ModalFooter>

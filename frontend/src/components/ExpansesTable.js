@@ -40,9 +40,6 @@ const ExpansesTable = ({ tripId }) => {
   }
   return (
     <>
-      {expenses?.map((expense) => (
-        <div>{expense.name}</div>
-      ))}
       <Table className="" aria-label="Example static collection table">
         <TableHeader>
           <TableColumn>KWOTA</TableColumn>

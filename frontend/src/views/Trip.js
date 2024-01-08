@@ -94,7 +94,7 @@ const Trip = () => {
               </div>
             </div>
             <div className="flex w-full pt-0 p-4 md:bottom-24 relative flex-col ">
-              <AddNewExpanseModal />
+              <AddNewExpanseModal users={users} tripId={tripId} />
               <ExpansesTable tripId={tripId} />
             </div>
           </div>
