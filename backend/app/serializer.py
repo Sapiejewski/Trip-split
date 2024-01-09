@@ -44,7 +44,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
     trip_name = serializers.SerializerMethodField()
     payer_details = serializers.SerializerMethodField()
     participants_details = serializers.SerializerMethodField()
-
+    participant_ids = serializers.ListField(write_only=True, child=serializers.IntegerField())
     class Meta:
         model = Expense
         fields = [
@@ -55,6 +55,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
             "amount",
             "payer",
             "payer_details",
+             "participant_ids",
             "participants_details",
             "date",
         ]
@@ -68,6 +69,17 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     def get_trip_name(self, obj):
         return obj.trip.name
+    
+    def create(self, validated_data):
+        participant_ids = validated_data.pop('participant_ids', [])
+        expense = Expense.objects.create(**validated_data)
+
+        # Add participants to the expense
+        for participant_id in participant_ids:
+            participant = User.objects.get(id=participant_id)
+            expense.participants.add(participant)
+
+        return expense
 
 
 class ExpenseUserSerializer(serializers.ModelSerializer):
@@ -83,3 +95,4 @@ class ExpenseUserSerializer(serializers.ModelSerializer):
 
     def get_user_name(self, obj):
         return obj.user.name
+
