@@ -2,6 +2,7 @@ import {
   Avatar,
   AvatarGroup,
   Card,
+  Chip,
   Select,
   SelectItem,
   Tooltip,
@@ -91,12 +92,19 @@ const Trip = () => {
                     <p className="text-sm pl-4 mb-3">
                       {date_start} - {date_end}
                     </p>
-                    <p className="bg-primary px-5 py-1 rounded-md shadow-sm self-end">
+                    {/* <p className="bg-primary px-5 py-1 rounded-md shadow-sm self-end"> */}
+                    <Chip
+                      className="self-end"
+                      size="lg"
+                      color="primary"
+                      variant="shadow"
+                    >
                       Koszt:&nbsp;
                       <p className="font-semibold inline">
                         {totalExpanses} PLN
                       </p>
-                    </p>
+                    </Chip>
+                    {/* </p> */}
                   </div>
                 </Card>
               </div>
