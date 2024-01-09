@@ -13,7 +13,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ["id", "name", "date_start", "date_end", "people_details"]
+        fields = ["id", "name", "date_start", "date_end", "people_details", "background"]
 
     def get_people_details(self, obj):
         # Serializing the User objects related to this Trip instance

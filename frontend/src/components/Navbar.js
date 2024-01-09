@@ -11,10 +11,10 @@ const Navbar = () => {
       name: "Uczestnicy",
       href: "/users",
     },
-    {
-      name: "Historia",
-      href: "/",
-    },
+    // {
+    // 	name: "Historia",
+    // 	href: "/",
+    // },
   ];
 
   return (

@@ -16,6 +16,7 @@ class Trip(models.Model):
     date_start = models.DateField()
     date_end = models.DateField()
     people = models.ManyToManyField(User, through='TripUser')
+    background = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name

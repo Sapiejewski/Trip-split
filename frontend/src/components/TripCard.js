@@ -1,14 +1,17 @@
 import React from "react";
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 
-import img from "../images/tripImages/img.jpg";
-
+const importAll = (r) => r.keys().map(r);
+const images = importAll(
+  require.context("../images/tripImages", false, /\.(png|jpe?g|svg)$/)
+);
 const TripCard = ({
   tripId = 1,
   name = "Wakacje w Grecji",
   date_start = "2021-01-23",
   date_end = "2021-01-30",
   href = `/Trip`,
+  imageId = 0,
 }) => {
   return (
     <a href={`${href}/${tripId}`}>
@@ -21,8 +24,8 @@ const TripCard = ({
         <CardBody className="overflow-visible py-2">
           <Image
             alt="Card background"
-            className="object-cover rounded-xl"
-            src={img}
+            className="object-cover rounded-xl aspect-video"
+            src={images[imageId]}
             width={270}
           />
         </CardBody>

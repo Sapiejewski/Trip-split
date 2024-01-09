@@ -39,7 +39,7 @@ const DeletableAvatar = ({ user, fetchUsers, tripId }) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Czy na pewno chcesz usunąć uczestnika?
+                Czy na pewno chcesz usunąć {user.name}?
               </ModalHeader>
               <ModalFooter>
                 <Button color="default" variant="" onPress={onClose}>

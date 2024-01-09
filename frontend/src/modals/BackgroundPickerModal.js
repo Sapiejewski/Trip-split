@@ -14,8 +14,14 @@ const images = importAll(
   require.context("../images/tripImages", false, /\.(png|jpe?g|svg)$/)
 );
 
-const BackgroundPickerModal = () => {
+const BackgroundPickerModal = ({ setImage }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleImageChange = (index) => {
+    console.log(index);
+    setImage(index);
+    onOpenChange();
+  };
 
   return (
     <>
@@ -42,7 +48,7 @@ const BackgroundPickerModal = () => {
               </ModalHeader>
               <ModalBody className="pb-10 flex flex-wrap">
                 {images.map((image, index) => (
-                  <button key={index} onClick={onClose}>
+                  <button key={index} onClick={() => handleImageChange(index)}>
                     <img
                       className="w-[250px] object-cover aspect-video  rounded-md hover:scale-105 hover:cursor-pointer hover:shadow-2xl hover:border-primary hover:border-3 duration-75 transition-all"
                       src={image}

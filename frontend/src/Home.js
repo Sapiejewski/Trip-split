@@ -9,17 +9,6 @@ const url = process.env.REACT_APP_API_URL;
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const images = [
-  // 	"./images/tripImages/airplaneWing.jpg",
-  // 	"./images/tripImages/DavidEm.jpg",
-  // 	"./images/tripImages/Góry.jpg",
-  // 	"./images/tripImages/GóryAless.jpg",
-  // 	"GóryKalen.jpg",
-  // 	"./images/tripImages/img.jpg",
-  // 	"./images/tripImages/LakeAaron.jpg",
-  // 	"./images/tripImages/TripBillard.jpg",
-  // 	"./images/tripImages/VacationPoints.jpg",
-  // ]
 
   useEffect(() => {
     setLoading(true);
@@ -47,7 +36,7 @@ const Home = () => {
         <div className="flex flex-wrap flex-row justify-center gap-x-5 gap-y-5 w-5/6">
           {data.map((item) => (
             <TripCard
-              // img={images[item.id]}
+              imageId={item.id}
               tripId={item.id}
               name={item.name}
               date_start={item.date_start}

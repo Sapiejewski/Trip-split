@@ -7,7 +7,6 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 
-import image from "./../images/tripImages/img.jpg";
 import { useEffect, useState } from "react";
 import ExpansesTable from "../components/ExpansesTable";
 import AddNewExpanseModal from "../modals/AddNewExpanseModal";
@@ -15,6 +14,11 @@ import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
 import DeletableAvatar from "../components/DeletableAvatar";
 import { useParams } from "react-router-dom";
+const importAll = (r) => r.keys().map(r);
+const images = importAll(
+  require.context("../images/tripImages", false, /\.(png|jpe?g|svg)$/)
+);
+
 const url = process.env.REACT_APP_API_URL;
 
 const Trip = () => {
@@ -23,6 +27,7 @@ const Trip = () => {
   const [date_start, setDate_start] = useState("");
   const [date_end, setDate_end] = useState("");
   const [expenses, setExpenses] = useState([]);
+  const [imageId, setImageId] = useState(0);
 
   const { tripId } = useParams();
 
@@ -38,6 +43,7 @@ const Trip = () => {
         setDate_start(data.date_start);
         setDate_end(data.date_end);
         setUsers(data.people_details);
+        if (data.background) setImageId(data.background);
       });
   }, []);
 
@@ -54,9 +60,9 @@ const Trip = () => {
   return (
     <>
       <div className="w-full">
-        <img src={image} className="w-full h-60 object-cover" />
+        <img src={images[imageId]} className="w-full h-60 object-cover" />
         <div className="flex justify-end w-full">
-          <BackgroundPickerModal />
+          <BackgroundPickerModal setImage={setImageId} />
         </div>
         <div className="w-full flex justify-center">
           <div className="flex-col flex container">
