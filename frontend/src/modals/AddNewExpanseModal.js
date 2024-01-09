@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 
 const url = process.env.REACT_APP_API_URL;
 
-const AddNewExpanseModal = ({ users, tripId }) => {
+const AddNewExpanseModal = ({ users, tripId, fetchExpenses }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
@@ -39,7 +39,12 @@ const AddNewExpanseModal = ({ users, tripId }) => {
       },
       body: JSON.stringify(data),
     }).then((res) => {
-      res.status === 200 ? onOpenChange() : console.log("error");
+      if (res.status === 200) {
+        onOpenChange();
+        fetchExpenses();
+      } else {
+        console.log("error");
+      }
     });
   };
 

@@ -29,6 +29,7 @@ const Trip = () => {
   const [expenses, setExpenses] = useState([]);
   const [imageId, setImageId] = useState(0);
   const [totalExpanses, setTotalExpanses] = useState(0);
+  const url = process.env.REACT_APP_API_URL;
 
   const { tripId } = useParams();
 
@@ -47,6 +48,7 @@ const Trip = () => {
         setTotalExpanses(data.total_expenses);
         if (data.background) setImageId(data.background);
       });
+    fetchExpenses();
   }, []);
 
   const fetchUsers = () => {
@@ -57,6 +59,16 @@ const Trip = () => {
     })
       .then((res) => res.json())
       .then((data) => setUsers(data.people_details));
+  };
+
+  const fetchExpenses = () => {
+    fetch(`${url}/trip/${tripId}/expenses/`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setExpenses(data));
   };
 
   return (
@@ -104,8 +116,12 @@ const Trip = () => {
               </div>
             </div>
             <div className="flex w-full pt-0 p-4 md:bottom-24 relative flex-col ">
-              <AddNewExpanseModal users={users} tripId={tripId} />
-              <ExpansesTable tripId={tripId} />
+              <AddNewExpanseModal
+                users={users}
+                tripId={tripId}
+                fetchExpenses={fetchExpenses}
+              />
+              <ExpansesTable expenses={expenses} />
             </div>
           </div>
         </div>
