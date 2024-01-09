@@ -32,7 +32,12 @@ const DeletableAvatar = ({ user, fetchUsers, tripId }) => {
   return (
     <>
       <Tooltip content={name} placement="bottom">
-        <Avatar onClick={onOpen} className="cursor-pointer" name={name} />
+        <Avatar
+          size="lg"
+          onClick={onOpen}
+          className="cursor-pointer"
+          name={name}
+        />
       </Tooltip>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

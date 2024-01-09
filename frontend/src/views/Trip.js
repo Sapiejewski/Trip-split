@@ -28,6 +28,7 @@ const Trip = () => {
   const [date_end, setDate_end] = useState("");
   const [expenses, setExpenses] = useState([]);
   const [imageId, setImageId] = useState(0);
+  const [totalExpanses, setTotalExpanses] = useState(0);
 
   const { tripId } = useParams();
 
@@ -43,6 +44,7 @@ const Trip = () => {
         setDate_start(data.date_start);
         setDate_end(data.date_end);
         setUsers(data.people_details);
+        setTotalExpanses(data.total_expenses);
         if (data.background) setImageId(data.background);
       });
   }, []);
@@ -78,7 +80,9 @@ const Trip = () => {
                     </p>
                     <p className="bg-primary px-5 py-1 rounded-md shadow-sm self-end">
                       Koszt:&nbsp;
-                      <p className="font-semibold inline">300 PLN</p>
+                      <p className="font-semibold inline">
+                        {totalExpanses} PLN
+                      </p>
                     </p>
                   </div>
                 </Card>

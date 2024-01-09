@@ -7,18 +7,22 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "name", "email"]
 
-
 class TripSerializer(serializers.ModelSerializer):
     people_details = serializers.SerializerMethodField()
+    total_expenses = serializers.SerializerMethodField()
 
     class Meta:
         model = Trip
-        fields = ["id", "name", "date_start", "date_end", "people_details", "background"]
+        fields = ["id", "name", "date_start", "date_end", "people_details", "total_expenses" ,"background"]
 
     def get_people_details(self, obj):
         # Serializing the User objects related to this Trip instance
         people = obj.people.all()
         return UserSerializer(people, many=True).data
+    
+    def get_total_expenses(self, obj):
+        return obj.total_expenses()
+
 
 
 class TripUserSerializer(serializers.ModelSerializer):

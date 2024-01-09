@@ -57,6 +57,7 @@ const AddNewTripUserModal = ({ tripId, fetchUsers }) => {
     <>
       <Tooltip content="Dodaj uczestnika" placement="bottom">
         <Avatar
+          size="lg"
           onClick={onOpen}
           className="cursor-pointer"
           src={plusIcon}

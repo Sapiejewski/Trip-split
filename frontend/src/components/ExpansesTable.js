@@ -75,7 +75,6 @@ const ExpansesTable = ({ tripId }) => {
 
         {/* <TableBody emptyContent={"No rows to display."}>{[]}</TableBody> */}
       </Table>
-      {console.log(expenses)}
     </>
   );
 };
