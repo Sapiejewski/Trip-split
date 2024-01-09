@@ -121,7 +121,10 @@ const Trip = () => {
                 tripId={tripId}
                 fetchExpenses={fetchExpenses}
               />
-              <ExpansesTable expenses={expenses} />
+              <ExpansesTable
+                expenses={expenses}
+                fetchExpenses={fetchExpenses}
+              />
             </div>
           </div>
         </div>
