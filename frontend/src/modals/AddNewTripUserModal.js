@@ -85,13 +85,20 @@ const AddNewTripUserModal = ({ tripId, fetchUsers }) => {
                   ))}
                 </Select>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Zamknij
-                </Button>
-                <Button color="primary" onPress={handleAddUser}>
-                  Dodaj
-                </Button>
+              <ModalFooter className="flex flex-row justify-between">
+                <a href="/users/">
+                  <Button color="default" variant="light">
+                    Zarządzaj użytkownikami
+                  </Button>
+                </a>
+                <div>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Zamknij
+                  </Button>
+                  <Button color="primary" onPress={handleAddUser}>
+                    Dodaj
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}
