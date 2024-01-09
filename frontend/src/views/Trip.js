@@ -14,6 +14,7 @@ import BackgroundPickerModal from "../modals/BackgroundPickerModal";
 import AddNewTripUserModal from "../modals/AddNewTripUserModal";
 import DeletableAvatar from "../components/DeletableAvatar";
 import { useParams } from "react-router-dom";
+import Summary from "../components/Summary";
 const importAll = (r) => r.keys().map(r);
 const images = importAll(
   require.context("../images/tripImages", false, /\.(png|jpe?g|svg)$/)
@@ -125,6 +126,7 @@ const Trip = () => {
                 expenses={expenses}
                 fetchExpenses={fetchExpenses}
               />
+              <Summary users={users} />
             </div>
           </div>
         </div>
