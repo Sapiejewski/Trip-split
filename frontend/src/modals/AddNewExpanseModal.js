@@ -12,11 +12,18 @@ import {
   Avatar,
   SelectSection,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, React } from "react";
 
 const url = process.env.REACT_APP_API_URL;
 
-const AddNewExpanseModal = ({ users, tripId, fetchExpenses }) => {
+const stringToArrayParser = (text) => {
+  let array = [];
+  if (text === undefined) return array;
+  array = text.split(",");
+  return array;
+};
+
+const AddNewExpanseModal = ({ users, tripId, fetchExpenses, fetchSummary }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
@@ -30,8 +37,10 @@ const AddNewExpanseModal = ({ users, tripId, fetchExpenses }) => {
       name: name,
       amount: price,
       payer: selectedPayer,
+      participant_ids: stringToArrayParser(selectedUsers),
       date: date,
     };
+
     fetch(`${url}/expense/`, {
       method: "POST",
       headers: {
@@ -42,6 +51,11 @@ const AddNewExpanseModal = ({ users, tripId, fetchExpenses }) => {
       if (res.status === 200) {
         onOpenChange();
         fetchExpenses();
+        fetchSummary();
+        setSelectedPayer();
+        setSelectedUsers();
+        setName("");
+        setPrice("");
       } else {
         console.log("error");
       }
@@ -127,11 +141,14 @@ const AddNewExpanseModal = ({ users, tripId, fetchExpenses }) => {
                   value={selectedUsers}
                   onChange={(e) => setSelectedUsers(e.target.value)}
                 >
-                  {users?.map((user) => (
-                    <SelectItem key={user.id} value={user.name}>
-                      {user.name}
-                    </SelectItem>
-                  ))}
+                  {users?.map((user) => {
+                    if (user.id !== selectedPayer)
+                      return (
+                        <SelectItem key={user.id} value={user.name}>
+                          {user.name}
+                        </SelectItem>
+                      );
+                  })}
                 </Select>
                 <Input
                   type="date"

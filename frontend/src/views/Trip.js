@@ -31,6 +31,7 @@ const Trip = () => {
   const [expenses, setExpenses] = useState([]);
   const [imageId, setImageId] = useState(0);
   const [totalExpanses, setTotalExpanses] = useState(0);
+  const [debtsSummary, setDebtsSummary] = useState();
   const url = process.env.REACT_APP_API_URL;
 
   const { tripId } = useParams();
@@ -51,6 +52,7 @@ const Trip = () => {
         if (data.background) setImageId(data.background);
       });
     fetchExpenses();
+    fetchSummary();
   }, []);
 
   const fetchUsers = () => {
@@ -71,6 +73,19 @@ const Trip = () => {
     })
       .then((res) => res.json())
       .then((data) => setExpenses(data));
+  };
+
+  const fetchSummary = () => {
+    fetch(`${url}/trip/${tripId}/summary/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setDebtsSummary(data);
+      });
   };
 
   return (
@@ -129,12 +144,18 @@ const Trip = () => {
                 users={users}
                 tripId={tripId}
                 fetchExpenses={fetchExpenses}
+                fetchSummary={fetchSummary}
               />
               <ExpansesTable
                 expenses={expenses}
                 fetchExpenses={fetchExpenses}
+                fetchSummary={fetchSummary}
               />
-              <Summary users={users} />
+              <Summary
+                tripId={tripId}
+                users={users}
+                debtsSummary={debtsSummary}
+              />
             </div>
           </div>
         </div>

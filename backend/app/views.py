@@ -1,14 +1,21 @@
 from collections import defaultdict
 from decimal import Decimal
+import json
 
 from django.shortcuts import get_object_or_404, render
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
 from .models import *
 from .serializer import *
 from .summary import get_expense_summary_json
+from .summary2 import calculate_debts
 
 # Create your views here.
 
@@ -255,3 +262,8 @@ class ExpenseDetailView(APIView):
     def get(self, request, trip_id):
         trip = get_object_or_404(Trip, id=trip_id)
         return get_expense_summary_json(trip_id)
+    
+@csrf_exempt
+def ExpenseSummaryView(request,trip_id):
+    debts = calculate_debts(trip_id)
+    return debts

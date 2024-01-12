@@ -24,7 +24,7 @@ const convertDate = (date) => {
   return newDate.toLocaleDateString();
 };
 
-const ExpansesTable = ({ expenses, fetchExpenses }) => {
+const ExpansesTable = ({ expenses, fetchExpenses, fetchSummary }) => {
   const deleteExpense = (expenseId) => {
     fetch(`${url}/expense/${expenseId}/remove_expense/`, {
       method: "DELETE",
@@ -33,6 +33,7 @@ const ExpansesTable = ({ expenses, fetchExpenses }) => {
       },
     }).then(() => {
       fetchExpenses();
+      fetchSummary();
     });
   };
 

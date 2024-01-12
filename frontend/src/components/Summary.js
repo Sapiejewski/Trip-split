@@ -10,44 +10,66 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-const Summary = ({ users }) => {
+const Summary = ({ tripId, users, debtsSummary }) => {
   return (
     <>
       <h1 className="text-2xl font-semibold mt-10">Podsumowanie należności</h1>
       <div className="flex flex-wrap gap-3 mt-5">
-        {users?.map((user) => (
-          <Card className="mt-5 p-3 w-fit">
-            <CardHeader>
-              <User name={user.name} description={user.email} />
-            </CardHeader>
-            <CardBody>
-              <div className="flex flex-col gap-2">
-                <Transfer amount={24} userId={2} />
-                <Transfer amount={120} userId={2} />
-                <Transfer amount={2} userId={2} />
-              </div>
-            </CardBody>
-            <Divider />
-            <CardFooter>
-              <div className="flex w-full justify-between text-[#71717A]">
-                <p className="pr-4">W sumie: </p>
-                <p className="">72 PLN</p>
-              </div>
-            </CardFooter>
-          </Card>
-        ))}
+        {debtsSummary?.map((debtUser) => {
+          const user = users.find((user) => user.id === debtUser.userId);
+          const sum = new Intl.NumberFormat("pl-PL", {
+            style: "currency",
+            currency: "PLN",
+          }).format(debtUser.debts.reduce((a, b) => a + b.amount, 0));
+
+          return (
+            <Card className="mt-5 p-3 w-fit">
+              <CardHeader>
+                <User name={user?.name} description={user?.email} />
+              </CardHeader>
+              <CardBody>
+                <div className="flex flex-col gap-2">
+                  {debtsSummary
+                    ?.filter((debtUser) => debtUser.userId === user?.id) // filter debts for current user
+                    .map((debtUser) =>
+                      debtUser.debts.map((debt) => (
+                        <Transfer
+                          amount={debt.amount}
+                          userId={debt.debtorId}
+                          users={users}
+                        />
+                      ))
+                    )}
+                </div>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <div className="flex w-full justify-between text-[#71717A]">
+                  <p className="pr-4">W sumie: </p>
+                  <p className="">{sum}</p>
+                </div>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </div>
     </>
   );
 };
 
-const Transfer = ({ amount, userId }) => {
+const Transfer = ({ amount, userId, users }) => {
+  const debtor = users?.find((user) => user.id === userId).name;
+  const formattedAmount = new Intl.NumberFormat("pl-PL", {
+    style: "currency",
+    currency: "PLN",
+  }).format(amount);
+
   return (
     <div className="pl-3 flex flex-row gap-3">
       <div className="flex flex-row items-center gap-3">
         <div className="flex items-center text-sm">
           <Chip color="primary" variant="flat">
-            {amount} PLN
+            {formattedAmount}
           </Chip>
         </div>
         <svg
@@ -67,13 +89,13 @@ const Transfer = ({ amount, userId }) => {
           variant="bordered"
           avatar={
             <Avatar
-              name="Filip"
+              name={debtor}
               size="sm"
-              getInitials={(name) => name.charAt(0)}
+              getInitials={(debtor) => debtor.charAt(0)}
             />
           }
         >
-          Filip
+          {debtor}
         </Chip>
       </div>
     </div>

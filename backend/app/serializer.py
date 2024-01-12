@@ -55,7 +55,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
             "amount",
             "payer",
             "payer_details",
-             "participant_ids",
+            "participant_ids",
             "participants_details",
             "date",
         ]
