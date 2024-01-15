@@ -20,7 +20,18 @@ const Summary = ({ tripId, users, debtsSummary }) => {
           const sum = new Intl.NumberFormat("pl-PL", {
             style: "currency",
             currency: "PLN",
-          }).format(debtUser.debts.reduce((a, b) => a + b.amount, 0));
+          }).format(
+            debtUser.debts.reduce((a, b) => a + parseFloat(b.amount), 0)
+          );
+          // let sum = 0;
+          // for (let i = 0; i < debtUser.debts.length; i++) {
+          //   sum += parseFloat(debtUser.debts[i].amount);
+          //   console.log(sum);
+          // }
+          // sum = new Intl.NumberFormat("pl-PL", {
+          //   style: "currency",
+          //   currency: "PLN",
+          // }).format(sum);
 
           return (
             <Card className="mt-5 p-3 w-fit">
@@ -63,6 +74,9 @@ const Transfer = ({ amount, userId, users }) => {
     style: "currency",
     currency: "PLN",
   }).format(amount);
+  if (amount === 0) {
+    return null;
+  }
 
   return (
     <div className="pl-3 flex flex-row gap-3">
