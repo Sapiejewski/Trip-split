@@ -25,7 +25,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center mt-10">
+    <div className="flex items-center justify-center mt-10 w-full">
       <div className="flex flex-col items-center justify-between w-11/12  gap-y-5">
         <div className="flex flex-row justify-between w-5/6 items-center">
           <h1 className="text-xl font-bold">Moje Wyjazdy</h1>
@@ -33,7 +33,7 @@ const Home = () => {
             <Button color="secondary">+ Nowy Wyjazd</Button>
           </Link>
         </div>
-        <div className="flex flex-wrap flex-row justify-center gap-x-5 gap-y-5 w-5/6">
+        <div className="flex flex-wrap flex-row justify-start gap-x-5 gap-y-5 w-5/6">
           {data.map((item) => (
             <TripCard
               imageId={item.id}
